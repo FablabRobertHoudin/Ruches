@@ -24,8 +24,8 @@ dht DHT;
 #if (sendHTTP)
   GSMClient client;
   GPRS gprs;
-  char server[] = "myerver.com";
-  char path[] = "/public/ruches/logger.php?id=brisebarre&x=";
+extern const char* host;
+extern char* URL;
   int port = 80; // port 80 is the default for HTTP
 #endif
   GSM gsmAccess(true); // include a 'true' parameter for debug enabled
@@ -163,11 +163,11 @@ void loop()
     no++;
     // send the message
 #if (sendHTTP)
-  if (client.connect(server, port))
+  if (client.connect(host, port))
   {
     // Make a HTTP request:
     client.print("GET ");
-    client.print(path);
+    client.print(URL);
     //client.print("?AN0=");
     //client.print(analogRead(A0));
     //client.print("&AN1=");
@@ -185,7 +185,7 @@ void loop()
 
     client.println(" HTTP/1.1");
     client.print("Host: ");
-    client.println(server);
+    client.println(host);
     client.println("Connection: close");
     client.println();
 
